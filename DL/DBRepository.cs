@@ -23,7 +23,7 @@ public class DBRepository : IRepository
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        SqlCommand cmd = new SqlCommand("Select * from Customer", connection);
+        SqlCommand cmd = new SqlCommand("Select * from Users", connection);
         SqlDataReader reader = cmd.ExecuteReader();
 
         while(reader.Read())
@@ -31,13 +31,13 @@ public class DBRepository : IRepository
             int id = reader.GetInt32(0);
             string email = reader.GetString(1);
             string password = reader.GetString(2);
-            string name = reader.GetString(3);
+            string cname = reader.GetString(3);
 
             Customer user = new Customer
             {
                 CustomerID = id,
                 Email = email,
-                Name = name,
+                Name = cname,
                 Password = password,
             };
             customerFromStore.Add(user);

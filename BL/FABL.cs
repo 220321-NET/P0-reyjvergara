@@ -1,10 +1,11 @@
 using DL;
+using Models;
 namespace BL;
 
 public class FABL : IFABL
 {
-    private readonly IRepository _repo;
-    public FABL(IRepository repo)
+    private readonly DBRepository _repo;
+    public FABL(DBRepository repo)
     {
         _repo = repo;
     }
@@ -23,7 +24,10 @@ public class FABL : IFABL
     {
         return _repo.GetAllStoreFronts();
     }
-
+    public List<Customer> GetAllCustomers()
+    {
+        return _repo.GetAllCustomers();
+    }
     public List<Product> GetProducts()
     {
         return _repo.GetAllProducts();

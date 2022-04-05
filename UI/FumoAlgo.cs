@@ -15,15 +15,20 @@ public class FumoAlgoMenu
 {
     // blueprint for the menu
     // method defines behavior
-    private readonly IFABL _bl;
+    private readonly FABL _bl;
 
-    /*public FumoAlgoMenu(IFABL bl)
+    public FumoAlgoMenu(FABL bl)
     {
         _bl = bl;
-    }*/
+    }
     public void MainMenuStart()
     {
-
+        Console.WriteLine("Let's test out the DB");
+        List<Customer> test = _bl.GetAllCustomers();
+        foreach(Customer cust in test)
+        {
+            Console.WriteLine(cust.Name);
+        }
         Console.WriteLine("Welcome to Fumo and Algorithms!");
         // We will need a menu, listing some different objects
         // these options should be to login first
@@ -71,6 +76,7 @@ public class FumoAlgoMenu
 
     private void SignUp()
     {
+        
         // creating new customer data
         Customer customerToMake = new Customer();
         Console.WriteLine("Creating new user...");

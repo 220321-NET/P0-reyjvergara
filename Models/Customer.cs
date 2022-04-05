@@ -15,17 +15,19 @@ public class Customer
             {
                 throw new Exception("Name cannot be empty");
             }
+            name = value;
         }
     }
     public string Email    
     {
-        get => name;
+        get => email;
 
         set{
             if(string.IsNullOrWhiteSpace(value))
             {
                 throw new Exception("Name cannot be empty");
             }
+            email = value;
         }
     }
     public int CustomerID{get;set;}
