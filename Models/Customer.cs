@@ -28,7 +28,7 @@ public class Customer
             }
         }
     }
-    public string CustomerID{get;set;}
+    public int CustomerID{get;set;}
     public string Password{get;set;}
     
 }
