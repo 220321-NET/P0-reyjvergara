@@ -1,2 +1,5 @@
+connectionString.txt
 bin/
 obj/
+*.user
+mono_crash.*
