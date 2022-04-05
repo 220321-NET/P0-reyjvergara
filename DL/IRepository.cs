@@ -5,7 +5,10 @@ public interface IRepository
    void ListNewProduct(Product newProductToAdd);
 
    List<Product> GetAllProducts();
+   List<StoreFront> GetAllStoreFronts();
+   List<Customer> GetAllCustomers();
 
    void CreateStore(StoreFront storeToAdd);
    void CreateProduct(Product productToAdd);
+   void CreateCustomer(Customer customerToAdd);
 }

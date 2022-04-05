@@ -19,4 +19,31 @@ public class FABL : IFABL
         _repo.CreateProduct(productToCreate);
     }
 
+    public List<StoreFront> GetStoreFronts()
+    {
+        return _repo.GetAllStoreFronts();
+    }
+
+    public List<Product> GetProducts()
+    {
+        return _repo.GetAllProducts();
+    }
+    public void CreateCustomer(Customer customerToCreate)
+    {
+        _repo.CreateCustomer(customerToCreate);
+    }
+
+    // public void DeleteCustomer(Customer customerToDelete)
+    // {
+    //     StaticStorage.Customer.Remove(customerToDelete);
+    // }
+
+    // public void DeleteStore(StoreFront storeToDelete)
+    // {
+    //     StaticStorage.StoreFront.Remove(storeToDelete);
+    // }
+    // public void DeleteProduct(Product productToDelete)
+    // {
+    //     StaticStorage.Product.Remove(productToDelete);
+    // }
 }

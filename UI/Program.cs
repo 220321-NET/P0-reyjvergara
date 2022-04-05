@@ -8,7 +8,7 @@ namespace FumoAlgo
         {
             Console.WriteLine("Welcome to the project");
             FumoAlgoMenu FAMenu = new FumoAlgoMenu();
-            FAMenu.MainMenu();
+            FAMenu.MainMenuStart();
         }
         
     }

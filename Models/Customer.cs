@@ -1,4 +1,4 @@
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models;
 
@@ -17,7 +17,17 @@ public class Customer
             }
         }
     }
-    public string Email{get;set;}
+    public string Email    
+    {
+        get => name;
+
+        set{
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                throw new Exception("Name cannot be empty");
+            }
+        }
+    }
     public string CustomerID{get;set;}
     public string Password{get;set;}
     
