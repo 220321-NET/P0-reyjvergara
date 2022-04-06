@@ -156,11 +156,14 @@ public class DBRepository : IRepository
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
         SqlCommand cmd = new SqlCommand("Insert into Receipt(ProductName, TotalCost, StoreID, CustomerID) Values ((select Name from Product where Id = @prodId), (select Price from Product where Id = @prodId), @storeId, @customerId)", connection);
-
+        SqlCommand cmd2 = new SqlCommand("UPDATE Product SET Quantity = Quantity -1 Where Id = @prodId  AND StoreID = @storeId", connection);
         cmd.Parameters.AddWithValue("@storeId", storeId);
         cmd.Parameters.AddWithValue("@customerId", customerId);
         cmd.Parameters.AddWithValue("@prodId", productId);
+        cmd2.Parameters.AddWithValue("@prodId", productId);
+        cmd2.Parameters.AddWithValue("@storeId", storeId);
         cmd.ExecuteNonQuery();
+        cmd2.ExecuteNonQuery();
         connection.Close();
         Console.WriteLine("Bought item, returning to main menu...\n");
     }
