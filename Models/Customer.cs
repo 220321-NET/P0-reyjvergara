@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Models;
 
@@ -6,6 +7,7 @@ public class Customer
 {
     private string name ="";
     private string email = "";
+    private string password = "";
     public string Name
     {
         get => name;
@@ -13,9 +15,9 @@ public class Customer
         set{
             if(string.IsNullOrWhiteSpace(value))
             {
-                throw new Exception("Name cannot be empty");
+                throw new ValidationException("Name cannot be empty");
             }
-            name = value;
+            name = value.Trim();
         }
     }
     public string Email    
@@ -25,12 +27,24 @@ public class Customer
         set{
             if(string.IsNullOrWhiteSpace(value))
             {
-                throw new Exception("Name cannot be empty");
+                throw new ValidationException("Email cannot be empty");
             }
-            email = value;
+            email = value.Trim();
         }
     }
-    public int CustomerID{get;set;}
-    public string Password{get;set;}
+    public int Id{get;set;}
+    public string Password
+        {
+        get => password;
+
+        set{
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                throw new ValidationException("Password cannot be empty");
+            }
+            password = value.Trim();
+        }
+    }
     
+    // public List<Receipt> OrderHistory {get; set;} = new List<Receipt>;
 }

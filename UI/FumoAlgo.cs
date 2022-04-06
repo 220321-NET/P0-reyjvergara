@@ -23,12 +23,14 @@ public class FumoAlgoMenu
     }
     public void MainMenuStart()
     {
+        /* test code for the database to see if we can get all users
         Console.WriteLine("Let's test out the DB");
         List<Customer> test = _bl.GetAllCustomers();
         foreach(Customer cust in test)
         {
             Console.WriteLine(cust.Name);
         }
+        */
         Console.WriteLine("Welcome to Fumo and Algorithms!");
         // We will need a menu, listing some different objects
         // these options should be to login first
@@ -80,8 +82,10 @@ public class FumoAlgoMenu
         // creating new customer data
         Customer customerToMake = new Customer();
         Console.WriteLine("Creating new user...");
-        
+
         EnterCustomerInfo:
+        Console.WriteLine("enter name:");
+        string? name = Console.ReadLine();
         Console.WriteLine("enter in your email:");
         string? email = Console.ReadLine();
 
@@ -90,17 +94,14 @@ public class FumoAlgoMenu
 
         try
         {
-            customerToMake.Email = email!;
-            customerToMake.Password = password!;
+            customerToMake.Email = email;
+            customerToMake.Password = password;
+            customerToMake.Name = name;
         }
         catch(ValidationException ex)
         {
             Console.WriteLine(ex.Message);
             goto EnterCustomerInfo;
-        }
-        finally
-        {
-            // I dunno
         }
 
         _bl.CreateCustomer(customerToMake);

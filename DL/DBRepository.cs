@@ -15,7 +15,32 @@ public class DBRepository : IRepository
     // get customer ********
     // get stores
     // kinda it for now
+    public void CreateStore(StoreFront newStore)
+    {
+        throw new NotImplementedException();
+    }
 
+    public void CreateCustomer(Customer newCustomer)
+    {
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("INSERT INTO  Users(Email, CPassword, CName) OUTPUT INSERTED.Id VALUES (@email, @password, @name)", connection);
+
+        cmd.Parameters.AddWithValue("@email", newCustomer.Email);
+        cmd.Parameters.AddWithValue("@password", newCustomer.Password);
+        cmd.Parameters.AddWithValue("@name", newCustomer.Name);
+
+        try
+        {
+            newCustomer.Id = (int) cmd.ExecuteScalar();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        connection.Close();
+    }
     public List<Customer> GetAllCustomers()
     {
         List<Customer> customerFromStore = new List<Customer>();
@@ -35,7 +60,7 @@ public class DBRepository : IRepository
 
             Customer user = new Customer
             {
-                CustomerID = id,
+                Id = id,
                 Email = email,
                 Name = cname,
                 Password = password,
@@ -64,16 +89,6 @@ public class DBRepository : IRepository
     }
 
     public List<StoreFront> GetAllStoreFronts()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CreateStore(StoreFront newStore)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CreateCustomer(Customer newCustomer)
     {
         throw new NotImplementedException();
     }
