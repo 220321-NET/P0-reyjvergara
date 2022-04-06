@@ -124,7 +124,34 @@ public class DBRepository : IRepository
 
     public List<StoreFront> GetAllStoreFronts()
     {
-        throw new NotImplementedException();
+        List<StoreFront> allStores = new List<StoreFront>();
+
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("Select * from StoreFront", connection);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        while(reader.Read())
+        {
+            int id = reader.GetInt32(0);
+            string name = reader.GetString(1);
+            string city = reader.GetString(2);
+            string state = reader.GetString(3);
+
+            StoreFront store = new StoreFront
+            {
+                StoreID = id,
+                Name = name,
+                City = city,
+                State = state,
+            };
+            allStores.Add(store);
+        }
+        reader.Close();
+        connection.Close();
+
+        return allStores;
     }
 
 }

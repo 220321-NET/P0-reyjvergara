@@ -109,8 +109,22 @@ public class FumoAlgoMenu
 
     private void StoreMenu(Customer customer)
     {
-        Console.WriteLine("Select your store:");
-
+        List<StoreFront> allStores = _bl.GetStoreFronts();
+        int storeChoice;
+        do
+        {
+            Console.WriteLine("Select your store:");
+            foreach(StoreFront stores in allStores)
+            {
+                Console.WriteLine($"[{stores.StoreID}] {stores.Name} : {stores.City}, {stores.State}");
+            }
+            if(int.TryParse(Console.ReadLine(), out storeChoice) && storeChoice >= 1 && storeChoice <= allStores.Count())
+            {
+                break;
+            }
+            Console.WriteLine("Please enter a valid number");
+        }while(true);
+        Console.WriteLine("You selected the store " + allStores.ElementAt(storeChoice-1).Name);
     }
 }    
 
