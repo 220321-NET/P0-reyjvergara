@@ -153,8 +153,16 @@ public class DBRepository : IRepository
 
     public void CreateReceipt(int storeId, int customerId, int productId)
     {
-        throw new NotImplementedException();
-        // should just be a query to write into file using the Id's and a join
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Insert into Receipt(ProductName, TotalCost, StoreID, CustomerID) Values ((select Name from Product where Id = @prodId), (select Price from Product where Id = @prodId), @storeId, @customerId)", connection);
+
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+        cmd.Parameters.AddWithValue("@customerId", customerId);
+        cmd.Parameters.AddWithValue("@prodId", productId);
+        cmd.ExecuteNonQuery();
+        connection.Close();
+        Console.WriteLine("Bought item, returning to main menu...\n");
     }
 
     public List<Product> GetAllProducts()
