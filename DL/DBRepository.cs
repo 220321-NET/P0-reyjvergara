@@ -41,6 +41,40 @@ public class DBRepository : IRepository
 
         connection.Close();
     }
+
+    public Customer FindCustomer(string email, string password)
+    {
+        Customer customerToReturn = new Customer();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Select * from Users where Email = @email AND CPassword = @password", connection);
+        cmd.Parameters.AddWithValue("@email", email.Trim());
+        cmd.Parameters.AddWithValue("@password", password.Trim());
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        if(reader.Read())
+        {
+            int id = reader.GetInt32(0);
+            string emailRet = reader.GetString(1);
+            string passw = reader.GetString(2);
+            string name = reader.GetString(3);
+            customerToReturn.Id = id;
+            customerToReturn.Email = emailRet;
+            customerToReturn.Password = passw;
+            customerToReturn.Name = name;
+        }
+        reader.Close();
+        connection.Close();
+        /*}
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally{
+            return customerToReturn;
+        }*/
+        return customerToReturn;
+    }
     public List<Customer> GetAllCustomers()
     {
         List<Customer> customerFromStore = new List<Customer>();

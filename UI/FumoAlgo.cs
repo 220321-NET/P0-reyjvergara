@@ -23,34 +23,18 @@ public class FumoAlgoMenu
     }
     public void MainMenuStart()
     {
-        /* test code for the database to see if we can get all users
-        Console.WriteLine("Let's test out the DB");
-        List<Customer> test = _bl.GetAllCustomers();
-        foreach(Customer cust in test)
-        {
-            Console.WriteLine(cust.Name);
-        }
-        */
         Console.WriteLine("Welcome to Fumo and Algorithms!");
-        // We will need a menu, listing some different objects
-        // these options should be to login first
-        // then give option to buy, sell, logout, exit
-        Console.WriteLine("Here's where you login/signup");
-        Console.WriteLine("Then we will make you pick a store");
-        Console.WriteLine("     Or you can select account settings");
-        Console.WriteLine("After that you can see the products");
-        Console.WriteLine("     Or you can select account settings");
-        Console.WriteLine("Then you can buy some products to your cart");
         bool exit = false;
         do{
             Console.WriteLine("Would you like to Log-in or Sign-Up?");
             Console.WriteLine("[1] Log-in");
             Console.WriteLine("[2] Sign-up");
+            Console.WriteLine("[9] Exit");
             int choice;
             do
             {
                 Console.Write("Enter your number of choice: ");
-                if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 2)
+                if ((int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 2) || choice == 9)
                 {
                     break;
                 }
@@ -63,12 +47,16 @@ public class FumoAlgoMenu
                 case 1:
                     // Log in customer
                     Console.WriteLine("Logging in...");
+                    LogIn();
                 break;
                 case 2:
                     SignUp();
                 break;
+                case 9:
+                    exit = true;
+                    Console.WriteLine("Exiting, Good-bye!");
+                    break;
                 default:
-                
                     Console.WriteLine("This shouldn't appear!");
                 break;
             }
@@ -106,4 +94,23 @@ public class FumoAlgoMenu
 
         _bl.CreateCustomer(customerToMake);
     }
+    private void LogIn()
+    {
+        //Validate:
+        Console.WriteLine("Enter your email:");
+        string? tempEmail = Console.ReadLine().Trim() ?? "";
+        Console.WriteLine("Enter your password:");
+        string? tempPassW = Console.ReadLine().Trim() ?? "";
+        Customer success = _bl.FindCustomer(tempEmail, tempPassW);
+        Console.WriteLine("Log-in Successful");
+        Console.WriteLine("Logged in as " + success.Name);
+        StoreMenu(success);
+    }
+
+    private void StoreMenu(Customer customer)
+    {
+        Console.WriteLine("Select your store:");
+
+    }
 }    
+

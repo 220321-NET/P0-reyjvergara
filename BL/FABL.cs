@@ -15,6 +15,11 @@ public class FABL : IFABL
         _repo.CreateStore(storeToCreate);
     }
 
+    public Customer FindCustomer(string email, string password)
+    {
+        return _repo.FindCustomer(email, password);
+    }
+
     public void CreateProduct(Product productToCreate)
     {
         _repo.CreateProduct(productToCreate);
