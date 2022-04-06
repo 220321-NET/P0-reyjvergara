@@ -140,6 +140,45 @@ public class FumoAlgoMenu
             i++;
         }
         Console.WriteLine(" ");
+        Console.WriteLine("Please enter your selection on what you want to buy or [12] to go back to store selection");
+        int choice;
+        do
+        {
+            if((int.TryParse(Console.ReadLine().Trim(), out choice) && choice >= 1 && choice <= storeProduct.Count()) || choice == 12)
+            {
+                break;
+            }
+            Console.WriteLine("Please enter a valid number");
+        }while(true);
+
+        if(choice == 12){StoreMenu(customer);}
+        int prodID = storeProduct.ElementAt(choice-1).ProductID;
+        MakeReceipt(customer, storeId, prodID);
+    }
+
+    private void MakeReceipt(Customer customer, int storeID, int prodID)
+    {
+        Console.WriteLine("You are buying this item, correct? [Y] [N]");
+        string choice;
+        do
+        {
+            choice = Console.ReadLine().Trim().ToUpper();
+            if(( choice == "Y" ) || ( choice == "N" ))
+            {
+                break;
+            }
+            Console.WriteLine("Please enter Y or N");
+        }while(true);
+
+        if(choice == "Y")
+        {
+            _bl.CreateReceipt(storeID, customer.Id, prodID);
+        }
+        else
+        {
+            Console.WriteLine("Returning to inventory of current store...");
+            StoreInventory(customer, storeID);
+        }
     }
 }    
 

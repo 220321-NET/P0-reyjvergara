@@ -151,6 +151,12 @@ public class DBRepository : IRepository
         throw new NotImplementedException();
     }
 
+    public void CreateReceipt(int storeId, int customerId, int productId)
+    {
+        throw new NotImplementedException();
+        // should just be a query to write into file using the Id's and a join
+    }
+
     public List<Product> GetAllProducts()
     {
         throw new NotImplementedException();
