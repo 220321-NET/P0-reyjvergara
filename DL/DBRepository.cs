@@ -75,6 +75,40 @@ public class DBRepository : IRepository
         }*/
         return customerToReturn;
     }
+
+    public List<Product> GetStoreProducts(int storeId)
+    {
+        List<Product> storeProduct = new List<Product>();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Select * from Product where StoreID = @storeId", connection);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        while(reader.Read())
+        {
+            int id = reader.GetInt32(0);
+            string name = reader.GetString(1);
+            string description = reader.GetString(2);
+            decimal price = reader.GetDecimal(3);
+            int quantity = reader.GetInt32(4);
+            int sid = storeId;
+            Product prod = new Product
+            {
+                ProductID = id,
+                Price = price,
+                Name = name,
+                Description = description,
+                Quantity = quantity,
+                StoreID = sid,
+            };
+            storeProduct.Add(prod);
+        }
+        reader.Close();
+        connection.Close();
+        return storeProduct;
+    }
+
     public List<Customer> GetAllCustomers()
     {
         List<Customer> customerFromStore = new List<Customer>();

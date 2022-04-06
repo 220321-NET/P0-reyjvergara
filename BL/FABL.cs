@@ -37,6 +37,11 @@ public class FABL : IFABL
     {
         return _repo.GetAllProducts();
     }
+
+    public List<Product> GetStoreProducts(int storeId)
+    {
+        return _repo.GetStoreProducts(storeId);
+    }
     public void CreateCustomer(Customer customerToCreate)
     {
         _repo.CreateCustomer(customerToCreate);

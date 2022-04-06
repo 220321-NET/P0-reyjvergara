@@ -23,7 +23,7 @@ public class FumoAlgoMenu
     }
     public void MainMenuStart()
     {
-        Console.WriteLine("Welcome to Fumo and Algorithms!");
+        Console.WriteLine("Welcome to Fumo and Algorithms!\n");
         bool exit = false;
         do{
             Console.WriteLine("Would you like to Log-in or Sign-Up?");
@@ -69,7 +69,7 @@ public class FumoAlgoMenu
         
         // creating new customer data
         Customer customerToMake = new Customer();
-        Console.WriteLine("Creating new user...");
+        Console.WriteLine("Creating new user...\n");
 
         EnterCustomerInfo:
         Console.WriteLine("enter name:");
@@ -97,7 +97,7 @@ public class FumoAlgoMenu
     private void LogIn()
     {
         //Validate:
-        Console.WriteLine("Enter your email:");
+        Console.WriteLine("\nEnter your email:");
         string? tempEmail = Console.ReadLine().Trim() ?? "";
         Console.WriteLine("Enter your password:");
         string? tempPassW = Console.ReadLine().Trim() ?? "";
@@ -118,13 +118,28 @@ public class FumoAlgoMenu
             {
                 Console.WriteLine($"[{stores.StoreID}] {stores.Name} : {stores.City}, {stores.State}");
             }
-            if(int.TryParse(Console.ReadLine(), out storeChoice) && storeChoice >= 1 && storeChoice <= allStores.Count())
+            if(int.TryParse(Console.ReadLine().Trim(), out storeChoice) && storeChoice >= 1 && storeChoice <= allStores.Count())
             {
                 break;
             }
             Console.WriteLine("Please enter a valid number");
         }while(true);
-        Console.WriteLine("You selected the store " + allStores.ElementAt(storeChoice-1).Name);
+        Console.WriteLine("\nYou selected the store " + allStores.ElementAt(storeChoice-1).Name);
+        int storeId = allStores.ElementAt(storeChoice-1).StoreID;
+        StoreInventory(customer, storeId);
+    }
+
+    private void StoreInventory(Customer customer, int storeId)
+    {
+        Console.WriteLine("\nWelcome, here's our inventory:");
+        List<Product> storeProduct = _bl.GetStoreProducts(storeId);
+        int i = 1;
+        foreach(Product sProd in storeProduct)
+        {
+            Console.WriteLine($"[{i}] {sProd.Name} {sProd.Price} Quantity: {sProd.Quantity} [PID:{sProd.ProductID}]");
+            i++;
+        }
+        Console.WriteLine(" ");
     }
 }    
 
