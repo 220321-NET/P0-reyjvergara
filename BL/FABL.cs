@@ -15,6 +15,16 @@ public class FABL : IFABL
         _repo.CreateStore(storeToCreate);
     }
 
+    public void CreateProduct(Product productToCreate)
+    {
+        _repo.CreateProduct(productToCreate);
+    }
+
+    public void CreateCustomer(Customer customerToCreate)
+    {
+        _repo.CreateCustomer(customerToCreate);
+    }
+
     public void CreateReceipt(int storeId, int customerId, int productId)
     {
         _repo.CreateReceipt(storeId, customerId, productId);
@@ -25,10 +35,6 @@ public class FABL : IFABL
         return _repo.FindCustomer(email, password);
     }
 
-    public void CreateProduct(Product productToCreate)
-    {
-        _repo.CreateProduct(productToCreate);
-    }
 
     public List<StoreFront> GetStoreFronts()
     {
@@ -43,26 +49,26 @@ public class FABL : IFABL
         return _repo.GetAllProducts();
     }
 
+    public void AddProduct(Product productToAdd, int quantity, int storeId)
+    {
+        return _repo.AddProduct(productToAdd, quantity, storeId);
+    }
     public List<Product> GetStoreProducts(int storeId)
     {
         return _repo.GetStoreProducts(storeId);
     }
-    public void CreateCustomer(Customer customerToCreate)
+
+    public void DeleteCustomer(Customer customerToDelete)
     {
-        _repo.CreateCustomer(customerToCreate);
+        return _repo.DeleteCustomer(customerToDelete);
     }
 
-    // public void DeleteCustomer(Customer customerToDelete)
-    // {
-    //     StaticStorage.Customer.Remove(customerToDelete);
-    // }
-
-    // public void DeleteStore(StoreFront storeToDelete)
-    // {
-    //     StaticStorage.StoreFront.Remove(storeToDelete);
-    // }
-    // public void DeleteProduct(Product productToDelete)
-    // {
-    //     StaticStorage.Product.Remove(productToDelete);
-    // }
+    public void DeleteStore(StoreFront storeToDelete)
+    {
+        return _repo.DeleteStore(storeToDelete);
+    }
+    public void DeleteProduct(Product productToDelete)
+    {
+        return _repo.DeleteProduct(productToDelete);
+    }
 }

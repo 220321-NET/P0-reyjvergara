@@ -5,19 +5,33 @@ namespace DL;
 
 public class DBRepository : IRepository
 {
+
     private readonly string _connectionString;
 
     public DBRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
-    // get products
-    // get customer ********
-    // get stores
-    // kinda it for now
+
     public void CreateStore(StoreFront newStore)
     {
-        throw new NotImplementedException();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Insert into StoreFront(Name, City, State) OUTPUT Inserted.Id Values (@name, @city, @state)", connection);
+
+        cmd.Parameters.AddWithValue("@name", newStore.Name);
+        cmd.Parameters.AddWithValue("@city", newStore.City);
+        cmd.Parameters.AddWithValue("@state", newStore.State);
+
+        try
+        {
+            newStore.Id = (int) cmd.ExecuteScalar();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        connection.Close();
     }
 
     public void CreateCustomer(Customer newCustomer)
@@ -42,39 +56,34 @@ public class DBRepository : IRepository
         connection.Close();
     }
 
-    public Customer FindCustomer(string email, string password)
+    public void CreateProduct(Product newProduct, int quantity, int storeId)
     {
-        Customer customerToReturn = new Customer();
+        throw new NotImplementedException();
+
+    }
+
+    public void CreateReceipt(int storeId, int customerId, int productId)
+    {
         SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
-        SqlCommand cmd = new SqlCommand("Select * from Users where Email = @email AND CPassword = @password", connection);
-        cmd.Parameters.AddWithValue("@email", email.Trim());
-        cmd.Parameters.AddWithValue("@password", password.Trim());
-        SqlDataReader reader = cmd.ExecuteReader();
-
-        if(reader.Read())
-        {
-            int id = reader.GetInt32(0);
-            string emailRet = reader.GetString(1);
-            string passw = reader.GetString(2);
-            string name = reader.GetString(3);
-            customerToReturn.Id = id;
-            customerToReturn.Email = emailRet;
-            customerToReturn.Password = passw;
-            customerToReturn.Name = name;
-        }
-        reader.Close();
+        SqlCommand cmd = new SqlCommand("Insert into Receipt(ProductName, TotalCost, StoreID, CustomerID) Values ((select Name from Product where Id = @prodId), (select Price from Product where Id = @prodId), @storeId, @customerId)", connection);
+        SqlCommand cmd2 = new SqlCommand("UPDATE Product SET Quantity = Quantity -1 Where Id = @prodId  AND StoreID = @storeId", connection);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+        cmd.Parameters.AddWithValue("@customerId", customerId);
+        cmd.Parameters.AddWithValue("@prodId", productId);
+        cmd2.Parameters.AddWithValue("@prodId", productId);
+        cmd2.Parameters.AddWithValue("@storeId", storeId);
+        cmd.ExecuteNonQuery();
+        cmd2.ExecuteNonQuery();
         connection.Close();
-        /*}
-        catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-        finally{
-            return customerToReturn;
-        }*/
-        return customerToReturn;
+        Console.WriteLine("Bought item, returning to main menu...\n");
     }
+
+    public List<Product> GetAllProducts()
+    {
+        throw new NotImplementedException();
+    }
+
 
     public List<Product> GetStoreProducts(int storeId)
     {
@@ -146,32 +155,6 @@ public class DBRepository : IRepository
         throw new NotImplementedException();
     }
 
-    public void CreateProduct(Product newProduct)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CreateReceipt(int storeId, int customerId, int productId)
-    {
-        SqlConnection connection = new SqlConnection(_connectionString);
-        connection.Open();
-        SqlCommand cmd = new SqlCommand("Insert into Receipt(ProductName, TotalCost, StoreID, CustomerID) Values ((select Name from Product where Id = @prodId), (select Price from Product where Id = @prodId), @storeId, @customerId)", connection);
-        SqlCommand cmd2 = new SqlCommand("UPDATE Product SET Quantity = Quantity -1 Where Id = @prodId  AND StoreID = @storeId", connection);
-        cmd.Parameters.AddWithValue("@storeId", storeId);
-        cmd.Parameters.AddWithValue("@customerId", customerId);
-        cmd.Parameters.AddWithValue("@prodId", productId);
-        cmd2.Parameters.AddWithValue("@prodId", productId);
-        cmd2.Parameters.AddWithValue("@storeId", storeId);
-        cmd.ExecuteNonQuery();
-        cmd2.ExecuteNonQuery();
-        connection.Close();
-        Console.WriteLine("Bought item, returning to main menu...\n");
-    }
-
-    public List<Product> GetAllProducts()
-    {
-        throw new NotImplementedException();
-    }
 
     public List<StoreFront> GetAllStoreFronts()
     {
@@ -204,5 +187,51 @@ public class DBRepository : IRepository
 
         return allStores;
     }
+    public Customer FindCustomer(string email, string password)
+    {
+        Customer customerToReturn = new Customer();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Select * from Users where Email = @email AND CPassword = @password", connection);
+        cmd.Parameters.AddWithValue("@email", email.Trim());
+        cmd.Parameters.AddWithValue("@password", password.Trim());
+        SqlDataReader reader = cmd.ExecuteReader();
 
+        if(reader.Read())
+        {
+            int id = reader.GetInt32(0);
+            string emailRet = reader.GetString(1);
+            string passw = reader.GetString(2);
+            string name = reader.GetString(3);
+            customerToReturn.Id = id;
+            customerToReturn.Email = emailRet;
+            customerToReturn.Password = passw;
+            customerToReturn.Name = name;
+        }
+        reader.Close();
+        connection.Close();
+        /*}
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally{
+            return customerToReturn;
+        }*/
+        return customerToReturn;
+    }
+
+    public void DeleteCustomer(Customer customerToDelete)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteStore(StoreFront storeToDelete)
+    {
+        throw new NotImplementedException();
+    }
+    public void DeleteProduct(Product productToDelete)
+    {
+        throw new NotImplementedException();
+    }
 }
