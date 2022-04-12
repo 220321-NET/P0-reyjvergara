@@ -76,7 +76,11 @@ public class FumoAlgoMenu
         string? name = Console.ReadLine();
         Console.WriteLine("enter in your email:");
         string? email = Console.ReadLine();
-
+        if(_bl.ValidateEmail(email) > 0)
+        {
+            Console.WriteLine("Email already exists...");
+            goto EnterCustomerInfo;
+        }
         Console.WriteLine("enter password:");
         string? password = Console.ReadLine();
 

@@ -8,6 +8,6 @@ public interface IRepository
    List<Customer> GetAllCustomers();
 
    void CreateStore(StoreFront storeToAdd);
-   void CreateProduct(Product productToAdd);
+   //void CreateProduct(Product productToAdd);
    void CreateCustomer(Customer customerToAdd);
 }

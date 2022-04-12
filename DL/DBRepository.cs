@@ -25,7 +25,7 @@ public class DBRepository : IRepository
 
         try
         {
-            newStore.Id = (int) cmd.ExecuteScalar();
+            newStore.StoreID = (int) cmd.ExecuteScalar();
         }
         catch(Exception e)
         {
@@ -56,10 +56,28 @@ public class DBRepository : IRepository
         connection.Close();
     }
 
-    public void CreateProduct(Product newProduct, int quantity, int storeId)
+    public void AddProduct(Product newProduct, int quantity, int storeId)
     {
         throw new NotImplementedException();
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Insert into Product(Name, Description, Price, Quantity, storeId) output inserted.Id Values(@name, @description, @price, @quantity, @storeId)", connection);
 
+        cmd.Parameters.AddWithValue("@name", newProduct.Name);
+        cmd.Parameters.AddWithValue("@description", newProduct.Description);
+        cmd.Parameters.AddWithValue("@price", newProduct.Price);
+        cmd.Parameters.AddWithValue("@quantity", quantity);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+
+        try
+        {
+            newProduct.ProductID = (int) cmd.ExecuteScalar();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        connection.Close();
     }
 
     public void CreateReceipt(int storeId, int customerId, int productId)
@@ -219,6 +237,17 @@ public class DBRepository : IRepository
             return customerToReturn;
         }*/
         return customerToReturn;
+    }
+
+    public int ValidateEmail(string email)
+    {
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("SELECT COUNT(*) from users where Email like @email", connection);
+        cmd.Parameters.AddWithValue("@email", email.Trim());
+        int userCount = (int) cmd.ExecuteScalar();
+        connection.Close();
+        return userCount;
     }
 
     public void DeleteCustomer(Customer customerToDelete)
