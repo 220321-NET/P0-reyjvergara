@@ -183,6 +183,10 @@ public class FumoAlgoMenu
 
         if(choice == 12){StoreMenu(customer);}
         int prodID = storeProduct.ElementAt(choice-1).ProductID;
+        // grab product instead to make a purchase with total, no name necessary
+        // for now just use receipt 
+        //but make a new table with total, storeID and customerID, and orderid for a primary key in ADS
+        // and then make a new method called shopping cart that stores a list of items, which clears after purchase
         MakeReceipt(customer, storeId, prodID);
     }
 
@@ -214,6 +218,33 @@ public class FumoAlgoMenu
     private void AdminMenu()
     {
         Console.WriteLine("WIP, need to place in options to add stores, add quantity, sign in to the admin,  make admins, so on and so forth");
-    }
-}    
+        Console.WriteLine("Please sign-in or exit to main menu.");
+        //Console.WriteLine("Contact another administrator if you lost access to your password or email");
+
+        Console.WriteLine("[0] Sign-In      [1] Go back to Main Menu    [2] Forgot Login/Lost access");
+        string choice;
+        do
+        {
+            choice = Console.ReadLine().Trim();
+            if((choice == "0") || (choice == "1") || (choice == "2"))
+            {
+                break;
+            }
+            Console.WriteLine("Please Enter valid choice of 0, 1, or 2");
+        }while(true);
+        if (choice == "0")
+        {
+            Console.WriteLine("Initiating the sign in for administrator");
+        }
+        else if(choice == "1")
+        {
+            Console.WriteLine("Going back to Main Menu...");
+            // MainMenuStart(); automatically breaks out because of how this is a loop and all
+        }
+        else
+        {
+            Console.WriteLine("Please contact an administrator for further help on recovering or changing your password. \nReturning to main menu...");
+        }
+    }    
+}
 
