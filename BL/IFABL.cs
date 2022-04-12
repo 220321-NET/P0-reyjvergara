@@ -7,7 +7,7 @@ public interface IFABL
 {
   void CreateStore(StoreFront storeToCreate);
   void CreateCustomer(Customer customerToCreate);
-  //void CreateProduct(Product productToCreate);
+  void CreateAdmin(Admin adminToCreate, int storeId);
   List<StoreFront> GetStoreFronts();
   List<Product> GetProducts();
   //List<Receipt> GetReceipts();

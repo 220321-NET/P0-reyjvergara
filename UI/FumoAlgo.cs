@@ -34,7 +34,7 @@ public class FumoAlgoMenu
             do
             {
                 Console.Write("Enter your number of choice: ");
-                if ((int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 2) || choice == 9)
+                if ((int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 2) || choice == 9 || choice == 1234)
                 {
                     break;
                 }
@@ -48,13 +48,17 @@ public class FumoAlgoMenu
                     // Log in customer
                     Console.WriteLine("Logging in...");
                     LogIn();
-                break;
+                    break;
                 case 2:
                     SignUp();
-                break;
+                    break;
                 case 9:
                     exit = true;
                     Console.WriteLine("Exiting, Good-bye!");
+                    break;
+                case 1234:
+                    Console.WriteLine("Going to Administrator Menu...");
+                    AdminMenu();
                     break;
                 default:
                     Console.WriteLine("This shouldn't appear!");
@@ -100,11 +104,33 @@ public class FumoAlgoMenu
     }
     private void LogIn()
     {
-        //Validate:
+        Validate:
         Console.WriteLine("\nEnter your email:");
         string? tempEmail = Console.ReadLine().Trim() ?? "";
         Console.WriteLine("Enter your password:");
         string? tempPassW = Console.ReadLine().Trim() ?? "";
+        if(_bl.ValidateEmailPass(tempEmail, tempPassW) != 1)
+        {
+            Console.WriteLine("Incorrect Email/Password Combination entered");
+            Console.WriteLine("Would you like to sign up?");
+            do
+            {
+                Console.WriteLine("[0] Sign-Up      [1] Login");
+                int lisu_choice;
+                if(int.TryParse(Console.ReadLine().Trim(), out lisu_choice) && lisu_choice >= 0 && lisu_choice <= 1)
+                {
+                    if(lisu_choice == 0)
+                    {
+                        SignUp();
+                    }
+                    else
+                    {
+                        goto Validate;
+                    }
+                }
+                Console.WriteLine("Please enter a valid number");
+            }while(true);
+        }
         Customer success = _bl.FindCustomer(tempEmail, tempPassW);
         Console.WriteLine("Log-in Successful");
         Console.WriteLine("Logged in as " + success.Name);
@@ -183,6 +209,11 @@ public class FumoAlgoMenu
             Console.WriteLine("Returning to inventory of current store...");
             StoreInventory(customer, storeID);
         }
+    }
+
+    private void AdminMenu()
+    {
+        Console.WriteLine("WIP, need to place in options to add stores, add quantity, sign in to the admin,  make admins, so on and so forth");
     }
 }    
 

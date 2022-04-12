@@ -30,6 +30,10 @@ public class FABL : IFABL
         _repo.CreateCustomer(customerToCreate);
     }
 
+    public void CreateAdmin(Admin adminToCreate, int storeId)
+    {
+        _repo.CreateAdmin(adminToCreate, storeId);
+    }
     ///<summary>
     ///  CreateReceipt will be adjusted to take in total price and date, no plan for updating this project to have all product names in an order
     ///</summary>
@@ -110,5 +114,10 @@ public class FABL : IFABL
     public int ValidateEmail(string email)
     {
         return _repo.ValidateEmail(email);
+    }
+
+    public int ValidateEmailPass(string email, string password)
+    {
+        return _repo.ValidateEmailPass(email, password);
     }
 }

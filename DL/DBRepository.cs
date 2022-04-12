@@ -56,6 +56,29 @@ public class DBRepository : IRepository
         connection.Close();
     }
 
+    public void CreateAdmin(Admin newAdmin, int storeId)
+    {
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("Insert into Admin(Email, APassword, AName, StoreId) OUTPUT Inserted.Id Values (@email, @password, @name, @storeId)", connection);
+
+        cmd.Parameters.AddWithValue("@email", newAdmin.Email);
+        cmd.Parameters.AddWithValue("@password", newAdmin.Password);
+        cmd.Parameters.AddWithValue("@name", newAdmin.Name);
+        cmd.Parameters.AddWithValue("@storeId", storeId);
+
+        try
+        {
+            newAdmin.Id = (int) cmd.ExecuteScalar();
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        connection.Close();
+    }
+
     public void AddProduct(Product newProduct, int quantity, int storeId)
     {
         throw new NotImplementedException();
@@ -245,6 +268,18 @@ public class DBRepository : IRepository
         connection.Open();
         SqlCommand cmd = new SqlCommand("SELECT COUNT(*) from users where Email like @email", connection);
         cmd.Parameters.AddWithValue("@email", email.Trim());
+        int userCount = (int) cmd.ExecuteScalar();
+        connection.Close();
+        return userCount;
+    }
+
+    public int ValidateEmailPass(string email, string password)
+    {
+        SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+        SqlCommand cmd = new SqlCommand("SELECT COUNT(*) from users where Email like @email and CPassword like @password", connection);
+        cmd.Parameters.AddWithValue("@email", email.Trim());
+        cmd.Parameters.AddWithValue("@password", password.Trim());
         int userCount = (int) cmd.ExecuteScalar();
         connection.Close();
         return userCount;

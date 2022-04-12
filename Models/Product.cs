@@ -7,7 +7,6 @@ public class Product
     public string Description {get; set;}
     public int Quantity{get; set;}
     public int ProductID{get;set;}
-    //quantiyu???
 
     public override string ToString()
     {
