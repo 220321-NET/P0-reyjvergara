@@ -190,6 +190,21 @@ public class FumoAlgoMenu
         MakeReceipt(customer, storeId, prodID);
     }
 
+    private void CartMenu(Cart sessionCart, Customer customer, int storeId)
+    {
+        // will never be called until one item exists in cart, though if all items are removed, should not make a receipt and remark cart is empty
+        // should be able to view cart content, i.e. only prod name and prod price
+        Console.WriteLine("Item added to cart");
+        Console.WriteLine("Would you like to add more items, remove items, check items and price, or checkout?");
+        Console.WriteLine("[0] Add items    [1] Remove items\n[2] Check items   [4] Checkout");
+        Console.WriteLine("[5] Quit and go to Main Menu - will remove items from cart");
+        do
+        {
+            // same choice thing for validation, maybe I'll change it up to make it my own function next project...
+        }while(true);
+
+    }
+
     private void MakeReceipt(Customer customer, int storeID, int prodID)
     {
         Console.WriteLine("You are buying this item, correct? [Y] [N]");
